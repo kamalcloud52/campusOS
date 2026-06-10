@@ -1,0 +1,6 @@
+{
+  "name": "Campus Survival OS",
+  "description": "Sistem komando terpusat bagi mahasiswa untuk melacak perkuliahan, agenda tugas penting, kalkulasi & simulasi IPK, serta mengelola anggaran keuangan kas kos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
