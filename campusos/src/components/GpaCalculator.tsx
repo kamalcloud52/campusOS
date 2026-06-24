@@ -144,10 +144,6 @@ export default function GpaCalculator({ courses, onUpdateCourseGrade }: GpaCalcu
       <div className="lg:col-span-2 space-y-6">
         {/* Cumulative GPA Card */}
         <div className="bg-white p-6 rounded-xl border border-slate-200/60 shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-6 opacity-[0.03] select-none">
-            <Award size={100} />
-          </div>
-
           <span className="text-[10px] bg-violet-50 text-violet-605 px-2.5 py-1 rounded border border-violet-100 select-none font-bold">
             Kalkulator IPK Otomatis
           </span>
@@ -204,8 +200,8 @@ export default function GpaCalculator({ courses, onUpdateCourseGrade }: GpaCalcu
 
         {/* Semester-wise breakdown history */}
         <div className="bg-white p-5 rounded-xl border border-slate-200/60 shadow-sm">
-          <h3 className="font-semibold text-slate-900 text-sm tracking-tight mb-4 flex items-center gap-1.5">
-            <Calculator size={16} className="text-slate-400" /> Ringkasan Indeks per Semester
+          <h3 className="font-semibold text-slate-900 text-sm tracking-tight mb-4">
+            Ringkasan Indeks per Semester
           </h3>
 
           {semesterBreakdowns.length === 0 ? (
@@ -227,10 +223,7 @@ export default function GpaCalculator({ courses, onUpdateCourseGrade }: GpaCalcu
       {/* Right Column - Simulator Input form and Results display */}
       <div className="space-y-6">
         <div className="bg-white p-5 rounded-xl border border-slate-200/60 shadow-sm space-y-4">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
-              <Calculator size={15} />
-            </div>
+          <div className="mb-1">
             <h3 className="font-semibold text-slate-900 text-sm tracking-tight">Simulator Target Kelulusan Kelompok</h3>
           </div>
 
@@ -279,9 +272,9 @@ export default function GpaCalculator({ courses, onUpdateCourseGrade }: GpaCalcu
 
             <button
               type="submit"
-              className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1.5 shadow-none focus:outline-none cursor-pointer"
+              className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition text-center shadow-none focus:outline-none cursor-pointer"
             >
-              <Play size={13} className="fill-white" /> Mulai Hitung Simulasi
+              Mulai Hitung Simulasi
             </button>
           </form>
 
@@ -296,17 +289,11 @@ export default function GpaCalculator({ courses, onUpdateCourseGrade }: GpaCalcu
                   : 'bg-rose-50/50 text-rose-800 border-rose-250/50'
               } text-xs space-y-2`}
             >
-              <div className="flex items-center gap-1.5 font-bold">
+              <div className="font-bold uppercase tracking-wider">
                 {simulationResults.achievable ? (
-                  <>
-                    <ShieldCheck size={16} className="text-emerald-600" />
-                    <span>TARGET SANGAT BISA DICAPAI</span>
-                  </>
+                  <span>TARGET SANGAT BISA DICAPAI</span>
                 ) : (
-                  <>
-                    <HelpCircle size={16} className="text-rose-600 animate-pulse" />
-                    <span>TARGET TIDAK MASUK AKAL</span>
-                  </>
+                  <span>TARGET TIDAK MASUK AKAL</span>
                 )}
               </div>
 
