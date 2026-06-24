@@ -1,5 +1,5 @@
 import { Course, Assignment, Transaction } from '../types';
-import { Award, ClipboardList, Wallet, TrendingUp, AlertCircle, ArrowUpRight, ArrowDownRight, Plus, Eye, BookOpen, Clock } from 'lucide-react';
+import { Award, ClipboardList, Wallet, TrendingUp, AlertCircle, ArrowUpRight, ArrowDownRight, Plus, Eye, BookOpen, Clock, Calendar, Lightbulb } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface DashboardProps {
@@ -260,10 +260,14 @@ export default function Dashboard({
                         </span>
                       </div>
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-[11px] text-slate-500 font-medium">
-                        <span className="text-slate-700">📚 {assignedCourse ? assignedCourse.name : 'Unknown Course'}</span>
+                        <span className="flex items-center gap-1 text-slate-700">
+                          <BookOpen size={12} className="text-slate-400" />
+                          {assignedCourse ? assignedCourse.name : 'Unknown Course'}
+                        </span>
                         <span className="text-slate-300">•</span>
-                        <span className={`${isOverdue ? 'text-rose-600 font-semibold' : 'text-slate-400'}`}>
-                          📅 {isOverdue ? 'Terlewat: ' : 'Tenggat: '} {assignment.dueDate}
+                        <span className={`flex items-center gap-1 ${isOverdue ? 'text-rose-600 font-semibold' : 'text-slate-400'}`}>
+                          <Calendar size={12} className={isOverdue ? 'text-rose-500' : 'text-slate-400'} />
+                          {isOverdue ? 'Terlewat: ' : 'Tenggat: '} {assignment.dueDate}
                         </span>
                       </div>
                     </div>
@@ -326,7 +330,7 @@ export default function Dashboard({
 
       {/* Tip of the day on campus survival */}
       <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl flex items-start gap-3">
-        <span className="text-lg">💡</span>
+        <Lightbulb size={18} className="text-amber-500 shrink-0 mt-0.5" />
         <div className="text-xs text-slate-600 leading-relaxed font-sans font-semibold">
           <span className="text-slate-800 font-bold">Tips Kampus Hari Ini:</span> SKS target nilai minimal "B" menjaga IPK Anda tetap di atas 3.00, yang merupakan standar umum untuk beasiswa dan mendaftar lowongan kerja setelah lulus. Selalu sisihkan minimum 10% kiriman bulanan untuk kas darurat!
         </div>
