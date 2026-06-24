@@ -64,7 +64,7 @@ export default function Settings({
   };
 
   const copyGASCode = () => {
-    const code = `// Code.gs - Backend API untuk Campus Survival OS
+    const code = `// Code.gs - Backend API Sinkronisasi untuk CampusOS
 const SPREADSHEET_ID = "MASUKKAN_ID_SPREADSHEET_ANDA";
 
 function doGet(e) { return handleRequest(e, 'GET'); }
@@ -72,27 +72,17 @@ function doPost(e) { return handleRequest(e, 'POST'); }
 
 function handleRequest(e, method) {
   const action = e.parameter.action;
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Content-Type': 'application/json'
-  };
-
+  const type = e.parameter.type;
+  
   try {
     let result;
-    switch(action) {
-      case 'ping':
-        result = { success: true, message: 'Pong!' };
-        break;
-      case 'getDashboard':
-        result = getDashboardData(e.parameter.userId);
-        break;
-      case 'syncData':
-        result = saveClientData(e.postData.contents);
-        break;
-      default:
-        result = { success: false, message: 'Action not found' };
+    if (action === 'ping') {
+      result = { success: true, message: 'Pong!' };
+    } else if (action === 'syncData') {
+      let contents = method === 'POST' ? e.postData.contents : e.parameter.data;
+      result = saveClientData(type, contents);
+    } else {
+      result = { success: false, message: 'Aksi tidak dikenal.' };
     }
     
     const output = ContentService.createTextOutput(JSON.stringify(result));
@@ -105,23 +95,43 @@ function handleRequest(e, method) {
   }
 }
 
-function getDashboardData(userId) {
-  return {
-    success: true,
-    data: {
-      user: { name: "Mahasiswa" },
-      summary: {
-        assignments_pending: 5,
-        gpa: 3.75,
-        balance: 500000
-      }
-    }
+function saveClientData(type, jsonContents) {
+  if (!SPREADSHEET_ID || SPREADSHEET_ID === "MASUKKAN_ID_SPREADSHEET_ANDA") {
+    return { success: false, message: "ID Spreadsheet belum dikonfigurasi di dalam script." };
+  }
+  
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const dataObj = JSON.parse(jsonContents);
+  const items = dataObj.payload; // Array data (courses, assignments, atau transactions)
+  
+  if (!items || !Array.isArray(items)) {
+    return { success: false, message: "Payload tidak valid atau bukan array." };
+  }
+  
+  let sheet = ss.getSheetByName(type) || ss.insertSheet(type);
+  sheet.clear();
+  
+  if (type === 'courses') {
+    sheet.appendRow(["ID", "Kode", "Nama", "SKS", "Nilai", "Ruangan", "Dosen", "Hari", "Waktu"]);
+    items.forEach(function(c) {
+      sheet.appendRow([c.id, c.code, c.name, c.credits, c.grade || "", c.room || "", c.lecturer || "", c.day || "", c.time || ""]);
+    });
+  } else if (type === 'assignments') {
+    sheet.appendRow(["ID", "CourseID", "Judul", "Tenggat", "Prioritas", "Status"]);
+    items.forEach(function(a) {
+      sheet.appendRow([a.id, a.courseId, a.title, a.dueDate, a.priority, a.status]);
+    });
+  } else if (type === 'transactions') {
+    sheet.appendRow(["ID", "Tanggal", "Deskripsi", "Jumlah", "Tipe", "Kategori"]);
+    items.forEach(function(t) {
+      sheet.appendRow([t.id, t.date, t.description, t.amount, t.type, t.category]);
+    });
+  }
+  
+  return { 
+    success: true, 
+    message: "Sinkronisasi berhasil! " + items.length + " item tipe '" + type + "' berhasil diperbarui di Google Sheets." 
   };
-}
-
-function saveClientData(contents) {
-  // Parsing and saving logic into Google Sheet tables
-  return { success: true, message: "Data berhasil diunggah ke Google Sheets!" };
 }`;
 
     navigator.clipboard.writeText(code);
@@ -142,7 +152,7 @@ function saveClientData(contents) {
           </div>
 
           <p className="text-xs text-slate-500 leading-relaxed font-semibold">
-            Campus Survival OS mendukung sinkronisasi serverless terpusat menggunakan <strong className="text-slate-700">Google Sheets</strong> sebagai database dan <strong className="text-slate-700">Google Apps Script (GAS)</strong> sebagai gerbang API Web Service.
+            CampusOS mendukung sinkronisasi serverless terintegrasi menggunakan <strong className="text-slate-700">Google Sheets</strong> sebagai database awan pribadi Anda dan <strong className="text-slate-700">Google Apps Script (GAS)</strong> sebagai gerbang API Web Service.
           </p>
 
           <form onSubmit={handleSaveGas} className="space-y-4 pt-2">
@@ -229,6 +239,64 @@ function saveClientData(contents) {
           )}
         </div>
 
+        {/* Step-by-Step GAS Integration Guide */}
+        <div className="bg-white p-6 rounded-xl border border-slate-200/60 shadow-sm space-y-4">
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
+              <Smartphone size={15} />
+            </div>
+            <h3 className="font-semibold text-slate-900 text-sm tracking-tight">Panduan Integrasi Google Sheets & GAS</h3>
+          </div>
+
+          <div className="space-y-4 text-xs font-semibold text-slate-600 leading-relaxed">
+            <div className="flex gap-3">
+              <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">1</span>
+              <div>
+                <p className="text-slate-900 font-bold">Buat Google Spreadsheet Baru</p>
+                <p className="text-slate-500 font-medium mt-0.5">Buka <a href="https://sheets.new" target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">sheets.new</a> untuk membuat spreadsheet kosong baru. Salin ID unik dari URL spreadsheet Anda (ID berada di antara <code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-[10px]">/d/</code> dan <code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-[10px]">/edit</code>).</p>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">2</span>
+              <div>
+                <p className="text-slate-900 font-bold">Buka Google Apps Script Editor</p>
+                <p className="text-slate-500 font-medium mt-0.5">Pada spreadsheet Anda, buka menu <strong className="text-slate-700">Ekstensi</strong> &gt; <strong className="text-slate-700">Apps Script</strong> di bar menu atas Google Sheets.</p>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">3</span>
+              <div>
+                <p className="text-slate-900 font-bold">Salin dan Tempel Kode di Bawah</p>
+                <p className="text-slate-500 font-medium mt-0.5">Hapus seluruh kode default di editor Apps Script, tempelkan kode <code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-[10px]">Code.gs</code> (klik tombol salin di bawah), ganti nilai variabel <code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-[10px]">SPREADSHEET_ID</code> dengan ID Spreadsheet yang Anda salin dari Langkah 1, lalu simpan proyek.</p>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">4</span>
+              <div>
+                <p className="text-slate-900 font-bold">Deploy Aplikasi Web (Sangat Penting!)</p>
+                <p className="text-slate-500 font-medium mt-0.5">
+                  Klik tombol biru <strong className="text-slate-700">Terapkan (Deploy)</strong> di kanan atas &gt; pilih <strong className="text-slate-700">Terapkan Baru (New Deployment)</strong>.<br />
+                  • Pilih jenis ikon roda gigi (Gear) di kiri atas lalu pilih <strong className="text-slate-700">Aplikasi Web (Web App)</strong>.<br />
+                  • Konfigurasikan <strong className="text-slate-700">Jalankan sebagai (Execute as)</strong> ke: <code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-[10px]">Saya (email Anda)</code>.<br />
+                  • Konfigurasikan <strong className="text-slate-700">Siapa yang memiliki akses (Who has access)</strong> ke: <code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-[10px]">Siapa saja (Anyone)</code>.<br />
+                  • Klik <strong className="text-slate-800">Terapkan</strong>, lalu berikan Otorisasi Izin Akses Google untuk Akun Anda.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">5</span>
+              <div>
+                <p className="text-slate-900 font-bold">Salin URL & Hubungkan</p>
+                <p className="text-slate-500 font-medium mt-0.5">Salin <strong className="text-slate-700">URL Aplikasi Web</strong> yang dihasilkan (berakhiran <code className="bg-slate-100 px-1 py-0.5 rounded font-mono text-[10px]">/exec</code>), tempelkan ke dalam input konfigurasi di atas, lalu aktifkan centang "Sinkronisasi Aktif" dan klik "Simpan URL"!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Copy GAS Code instruction box */}
         <div className="bg-white p-5 rounded-xl border border-slate-200/60 shadow-sm space-y-3">
           <div className="flex items-center justify-between">
@@ -246,12 +314,76 @@ function saveClientData(contents) {
           <p className="text-[11px] text-slate-500 leading-relaxed font-semibold">
             Salin script backend di bawah ini, tempel di editor <a href="https://script.google.com" target="_blank" rel="noreferrer" className="text-blue-605 underline">script.google.com</a>, ganti ID Spreadsheet, jalankan modul Deploy Web App ("Execute as Me", "Who has access Anyone"), lalu simpan URL yang dihasilkan pada input di atas!
           </p>
-          <pre className="bg-slate-900 text-slate-300 p-3 rounded-lg text-[10px] font-mono overflow-x-auto max-h-[160px] leading-relaxed">
-{`const SPREADSHEET_ID = "MASUKKAN_ID_SPREADSHEET_ANDA";
+          <pre className="bg-slate-900 text-slate-300 p-3 rounded-lg text-[10px] font-mono overflow-x-auto max-h-[220px] leading-relaxed">
+{`// Code.gs - Backend API Sinkronisasi untuk CampusOS
+const SPREADSHEET_ID = "MASUKKAN_ID_SPREADSHEET_ANDA";
 
 function doGet(e) { return handleRequest(e, 'GET'); }
 function doPost(e) { return handleRequest(e, 'POST'); }
-...`}
+
+function handleRequest(e, method) {
+  const action = e.parameter.action;
+  const type = e.parameter.type;
+  
+  try {
+    let result;
+    if (action === 'ping') {
+      result = { success: true, message: 'Pong!' };
+    } else if (action === 'syncData') {
+      let contents = method === 'POST' ? e.postData.contents : e.parameter.data;
+      result = saveClientData(type, contents);
+    } else {
+      result = { success: false, message: 'Aksi tidak dikenal.' };
+    }
+    
+    const output = ContentService.createTextOutput(JSON.stringify(result));
+    output.setMimeType(ContentService.MimeType.JSON);
+    return output;
+  } catch (err) {
+    const errorOutput = ContentService.createTextOutput(JSON.stringify({ success: false, message: err.toString() }));
+    errorOutput.setMimeType(ContentService.MimeType.JSON);
+    return errorOutput;
+  }
+}
+
+function saveClientData(type, jsonContents) {
+  if (!SPREADSHEET_ID || SPREADSHEET_ID === "MASUKKAN_ID_SPREADSHEET_ANDA") {
+    return { success: false, message: "ID Spreadsheet belum dikonfigurasi di dalam script." };
+  }
+  
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const dataObj = JSON.parse(jsonContents);
+  const items = dataObj.payload; // Array data (courses, assignments, atau transactions)
+  
+  if (!items || !Array.isArray(items)) {
+    return { success: false, message: "Payload tidak valid atau bukan array." };
+  }
+  
+  let sheet = ss.getSheetByName(type) || ss.insertSheet(type);
+  sheet.clear();
+  
+  if (type === 'courses') {
+    sheet.appendRow(["ID", "Kode", "Nama", "SKS", "Nilai", "Ruangan", "Dosen", "Hari", "Waktu"]);
+    items.forEach(function(c) {
+      sheet.appendRow([c.id, c.code, c.name, c.credits, c.grade || "", c.room || "", c.lecturer || "", c.day || "", c.time || ""]);
+    });
+  } else if (type === 'assignments') {
+    sheet.appendRow(["ID", "CourseID", "Judul", "Tenggat", "Prioritas", "Status"]);
+    items.forEach(function(a) {
+      sheet.appendRow([a.id, a.courseId, a.title, a.dueDate, a.priority, a.status]);
+    });
+  } else if (type === 'transactions') {
+    sheet.appendRow(["ID", "Tanggal", "Deskripsi", "Jumlah", "Tipe", "Kategori"]);
+    items.forEach(function(t) {
+      sheet.appendRow([t.id, t.date, t.description, t.amount, t.type, t.category]);
+    });
+  }
+  
+  return { 
+    success: true, 
+    message: "Sinkronisasi berhasil! " + items.length + " item tipe '" + type + "' berhasil diperbarui di Google Sheets." 
+  };
+}`}
           </pre>
         </div>
       </div>
