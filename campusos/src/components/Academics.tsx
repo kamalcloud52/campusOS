@@ -129,7 +129,7 @@ export default function Academics({
               subTab === 'assignments' ? 'bg-white text-blue-600 shadow-xs border border-slate-200/20' : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            <ClipboardList size={14} /> Agenda Tugas ({assignments.filter((a) => a.status === 'Pending').length})
+            Agenda Tugas ({assignments.filter((a) => a.status === 'Pending').length})
           </button>
           <button
             onClick={() => { setSubTab('courses'); setSearchQuery(''); }}
@@ -137,7 +137,7 @@ export default function Academics({
               subTab === 'courses' ? 'bg-white text-blue-600 shadow-xs border border-slate-200/20' : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            <BookOpen size={14} /> Daftar Kuliah ({courses.length})
+            Daftar Kuliah ({courses.length})
           </button>
         </div>
 
@@ -149,14 +149,14 @@ export default function Academics({
               disabled={courses.length === 0}
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
             >
-              <Plus size={15} /> Tugas Baru
+              Tugas Baru
             </button>
           ) : (
             <button
               onClick={() => setAddCourseOpen(true)}
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer"
             >
-              <Plus size={15} /> Tambah Kuliah
+              Tambah Kuliah
             </button>
           )}
         </div>
@@ -164,7 +164,6 @@ export default function Academics({
 
       {courses.length === 0 && subTab === 'assignments' && (
         <div className="bg-amber-50 border border-amber-100 text-amber-800 p-4 rounded-xl text-xs font-medium flex items-start gap-2">
-          <AlertCircle size={15} className="text-amber-600 shrink-0 mt-0.5" />
           <div>
             <span className="font-bold">Pemberitahuan:</span> Anda belum menambahkan kelas/mata kuliah. Daftarkan kelas Anda terlebih dulu sebelum mencatat tugas kuliah.
           </div>
@@ -178,15 +177,12 @@ export default function Academics({
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {/* Search inputs and Filters */}
             <div className="relative col-span-1 sm:col-span-1 font-medium text-slate-700">
-              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                <Search size={15} />
-              </span>
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Cari tugas..."
-                className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 text-xs font-semibold placeholder-slate-450"
+                className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 text-xs font-semibold placeholder-slate-450"
               />
             </div>
 
@@ -224,7 +220,6 @@ export default function Academics({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredAssignments.length === 0 ? (
               <div className="col-span-full text-center py-16 bg-white rounded-2xl border border-slate-100 shadow-xs">
-                <BookOpen className="mx-auto text-slate-300 mb-3" size={40} />
                 <h4 className="font-bold text-slate-700 text-sm">Tidak ada tugas ditemukan</h4>
                 <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">Sengaja menyaring atau belum mencatat pekerjaan kuliah? Tekan "Tugas Baru" untuk menambahkannya.</p>
               </div>
@@ -261,9 +256,8 @@ export default function Academics({
                           }`}>
                             {assignment.title}
                           </h4>
-                          <span className="flex items-center gap-1 text-[11px] font-bold text-slate-500 mt-1">
-                            <BookOpen size={12} className="text-slate-400" />
-                            {assignedCourse ? `${assignedCourse.code} - ${assignedCourse.name}` : 'Mata Kuliah Tidak Diketahui'}
+                          <span className="block text-[11px] font-bold text-slate-500 mt-1">
+                            Kelas: {assignedCourse ? `${assignedCourse.code} - ${assignedCourse.name}` : 'Mata Kuliah Tidak Diketahui'}
                           </span>
                         </div>
                         <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0 select-none ${
@@ -282,18 +276,17 @@ export default function Academics({
                     </div>
 
                     <div className="flex items-center justify-between border-t border-slate-100 pt-3 mt-4">
-                      <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold font-mono">
-                        <Calendar size={13} className="text-slate-400" />
+                      <div className="text-xs text-slate-400 font-semibold font-mono">
                         <span className={isOverdue ? 'text-rose-600 font-bold' : ''}>
-                          {isOverdue ? 'Terlambat: ' : ''} {assignment.dueDate}
+                          Tenggat: {assignment.dueDate} {isOverdue ? '(Terlambat)' : ''}
                         </span>
                       </div>
                       <button
                         onClick={() => onDeleteAssignment(assignment.id)}
-                        className="text-slate-400 hover:text-rose-600 p-1 rounded-lg transition hover:bg-rose-50 focus:outline-none cursor-pointer"
+                        className="text-slate-400 hover:text-rose-600 text-[10px] uppercase font-bold tracking-wider transition focus:outline-none cursor-pointer"
                         title="Hapus Tugas"
                       >
-                        <Trash2 size={14} />
+                        Hapus
                       </button>
                     </div>
                   </motion.div>
@@ -306,22 +299,18 @@ export default function Academics({
         // COURSES MANAGER
         <div className="space-y-4">
           <div className="relative max-w-sm font-medium text-slate-700 font-sans">
-            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-              <Search size={15} />
-            </span>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cari mata kuliah..."
-              className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 text-xs font-semibold placeholder-slate-450"
+              className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 text-xs font-semibold placeholder-slate-450"
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {filteredCourses.length === 0 ? (
               <div className="col-span-full text-center py-16 bg-white rounded-2xl border border-slate-100 shadow-xs">
-                <BookOpen className="mx-auto text-slate-300 mb-3" size={40} />
                 <h4 className="font-bold text-slate-700 text-sm">Tidak ada mata kuliah ditemukan</h4>
                 <p className="text-xs text-slate-400 mt-1 max-w-xs mx-auto">Silakan tambahkan jadwal kelas Semester Anda menggunakan tombol "Tambah Kuliah".</p>
               </div>
@@ -343,10 +332,10 @@ export default function Academics({
                         <div className="flex items-center gap-1.5 text-slate-400">
                           <button
                             onClick={() => onDeleteCourse(course.id)}
-                            className="hover:text-rose-600 transition p-1 rounded-lg hover:bg-rose-50 cursor-pointer"
+                            className="text-slate-400 hover:text-rose-600 text-[10px] font-bold uppercase tracking-wider transition cursor-pointer"
                             title="Hapus Kuliah"
                           >
-                            <Trash2 size={14} />
+                            Hapus
                           </button>
                         </div>
                       </div>
