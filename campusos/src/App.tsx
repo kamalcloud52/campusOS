@@ -245,170 +245,48 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-900">
-      {/* Upper Navigation Header Bar */}
-      <nav id="app-nav" className="bg-white text-slate-800 sticky top-0 z-30 border-b border-slate-200/80">
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-900 pb-20 md:pb-28">
+      {/* Streamlined Upper App Bar */}
+      <nav id="app-nav" className="bg-white text-slate-800 sticky top-0 z-30 border-b border-slate-200/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-14">
             {/* Logo Brand Segment */}
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
-                <span className="text-white font-bold text-lg">C</span>
+            <div className="flex items-center gap-2 select-none">
+              <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center text-white">
+                <span className="text-white font-bold text-sm">C</span>
               </div>
-              <span className="font-bold tracking-tight text-lg text-slate-900 font-sans">
+              <span className="font-bold tracking-tight text-sm text-slate-900 font-sans">
                 CampusOS
               </span>
               {isSyncing && (
-                <span className="text-[9px] bg-blue-100 text-blue-600 font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider animate-pulse ml-2">
+                <span className="text-[8px] bg-blue-100 text-blue-600 font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider animate-pulse ml-2">
                   Syncing
                 </span>
               )}
             </div>
 
-            {/* Desktop Navigation Links tabs */}
-            <div className="hidden md:flex items-center gap-1.5">
-              <button
-                onClick={() => setActiveTab('dashboard')}
-                className={`px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 focus:outline-none cursor-pointer ${
-                  activeTab === 'dashboard' ? 'bg-blue-50 text-blue-600' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-                }`}
-              >
-                <LayoutDashboard size={14} /> Ringkasan
-              </button>
-
-              <button
-                onClick={() => { setActiveTab('academics'); setOpenAssignmentModalOnLoad(false); }}
-                className={`px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 focus:outline-none cursor-pointer ${
-                  activeTab === 'academics' ? 'bg-blue-50 text-blue-600' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-                }`}
-              >
-                <BookOpen size={14} /> Kelas & Agenda
-              </button>
-
-              <button
-                onClick={() => setActiveTab('gpa')}
-                className={`px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 focus:outline-none cursor-pointer ${
-                  activeTab === 'gpa' ? 'bg-blue-50 text-blue-600' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-                }`}
-              >
-                <Calculator size={14} /> Kalkulator IPK
-              </button>
-
-              <button
-                onClick={() => { setActiveTab('finance'); setOpenTransactionModalOnLoad(false); }}
-                className={`px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 focus:outline-none cursor-pointer ${
-                  activeTab === 'finance' ? 'bg-blue-50 text-blue-600' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-                }`}
-              >
-                <Wallet size={14} /> Keuangan Kos
-              </button>
-
-              <button
-                onClick={() => setActiveTab('settings')}
-                className={`px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 focus:outline-none cursor-pointer ${
-                  activeTab === 'settings' ? 'bg-blue-50 text-blue-600' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-                }`}
-              >
-                <SettingsIcon size={14} /> Pengaturan
-              </button>
-            </div>
-
             {/* Right Student account badge layout */}
-            <div className="hidden md:flex items-center gap-3">
-              <div className="flex items-center gap-2 bg-slate-50 border border-slate-200/60 pl-2.5 pr-3 py-1.5 rounded-lg text-xs">
-                <div className="w-5 h-5 bg-gradient-to-tr from-blue-500 to-sky-500 rounded-full flex items-center justify-center text-white font-extrabold text-[10px]">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200/50 pl-2 pr-2.5 py-1 rounded-lg text-xs font-semibold">
+                <div className="w-4.5 h-4.5 bg-gradient-to-tr from-blue-500 to-sky-500 rounded-full flex items-center justify-center text-white font-extrabold text-[9px] select-none">
                   {user.name.charAt(0).toUpperCase()}
                 </div>
-                <span className="font-semibold text-slate-700">{user.name}</span>
+                <span className="font-bold text-slate-700 max-w-[120px] truncate">{user.name}</span>
               </div>
               <button
                 onClick={handleLogout}
-                className="p-2 text-slate-400 hover:text-rose-600 hover:bg-slate-50 rounded-lg transition focus:outline-none cursor-pointer"
-                title="Log Out"
+                className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-slate-50 rounded-lg transition focus:outline-none cursor-pointer"
+                title="Keluar Sesi"
               >
-                <LogOut size={16} />
-              </button>
-            </div>
-
-            {/* Mobile Menu layout toggle */}
-            <div className="md:hidden flex items-center">
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="p-2 text-slate-500 hover:text-slate-800 focus:outline-none"
-              >
-                {menuOpen ? <X size={20} /> : <Menu size={20} />}
+                <LogOut size={15} />
               </button>
             </div>
           </div>
         </div>
-
-        {/* Mobile Navigation Dropdown Menu */}
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-1.5 overflow-hidden shadow-sm"
-            >
-              <button
-                onClick={() => { setActiveTab('dashboard'); setMenuOpen(false); }}
-                className={`w-full text-left px-4 py-2 text-xs font-semibold rounded-lg transition flex items-center gap-2 ${
-                  activeTab === 'dashboard' ? 'bg-blue-50 text-blue-600' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-                }`}
-              >
-                <LayoutDashboard size={14} /> Ringkasan
-              </button>
-              <button
-                onClick={() => { setActiveTab('academics'); setOpenAssignmentModalOnLoad(false); setMenuOpen(false); }}
-                className={`w-full text-left px-4 py-2 text-xs font-semibold rounded-lg transition flex items-center gap-2 ${
-                  activeTab === 'academics' ? 'bg-blue-50 text-blue-600' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-                }`}
-              >
-                <BookOpen size={14} /> Kelas & Agenda
-              </button>
-              <button
-                onClick={() => { setActiveTab('gpa'); setMenuOpen(false); }}
-                className={`w-full text-left px-4 py-2 text-xs font-semibold rounded-lg transition flex items-center gap-2 ${
-                  activeTab === 'gpa' ? 'bg-blue-50 text-blue-600' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-                }`}
-              >
-                <Calculator size={14} /> Kalkulator IPK
-              </button>
-              <button
-                onClick={() => { setActiveTab('finance'); setOpenTransactionModalOnLoad(false); setMenuOpen(false); }}
-                className={`w-full text-left px-4 py-2 text-xs font-semibold rounded-lg transition flex items-center gap-2 ${
-                  activeTab === 'finance' ? 'bg-blue-50 text-blue-600' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-                }`}
-              >
-                <Wallet size={14} /> Keuangan Kos
-              </button>
-              <button
-                onClick={() => { setActiveTab('settings'); setMenuOpen(false); }}
-                className={`w-full text-left px-4 py-2 text-xs font-semibold rounded-lg transition flex items-center gap-2 ${
-                  activeTab === 'settings' ? 'bg-blue-50 text-blue-600' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-                }`}
-              >
-                <SettingsIcon size={14} /> Pengaturan
-              </button>
-              <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-semibold">
-                <span className="text-slate-500 flex items-center gap-1.5">
-                  <UserIcon size={12} /> {user.name}
-                </span>
-                <button
-                  onClick={() => { handleLogout(); setMenuOpen(false); }}
-                  className="text-rose-600 flex items-center gap-1 hover:underline"
-                >
-                  Keluar <LogOut size={12} />
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </nav>
 
       {/* Main Core Router Workspace Page Content Container */}
-      <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -475,7 +353,7 @@ export default function App() {
       </main>
 
       {/* Under-footer systems status mark */}
-      <footer className="bg-white border-t border-slate-200 py-4 mt-auto">
+      <footer className="bg-white border-t border-slate-200 py-4 mt-auto mb-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5">
@@ -483,13 +361,81 @@ export default function App() {
               <span className="text-[10px] font-medium text-slate-500">System Status: Optimal</span>
             </div>
             <span className="text-slate-200">|</span>
-            <span className="text-[10px] font-medium text-slate-500 uppercase tracking-tight italic text-blue-600">v1.0.4-stable</span>
+            <span className="text-[10px] font-medium text-slate-500 uppercase tracking-tight italic text-blue-600">v1.1.0-native</span>
           </div>
           <div className="text-[10px] font-bold text-slate-350 tracking-tighter uppercase font-sans">
             Campus Survival OS © 2026
           </div>
         </div>
       </footer>
+
+      {/* Premium Floating Bottom Tab Navigation Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-slate-200/60 shadow-lg px-2 py-2 flex justify-around items-center md:bottom-4 md:left-1/2 md:-translate-x-1/2 md:max-w-2xl md:rounded-xl md:border md:shadow-xl">
+        <button
+          onClick={() => setActiveTab('dashboard')}
+          className={`flex flex-col items-center justify-center flex-1 py-1 transition-all duration-200 focus:outline-none cursor-pointer ${
+            activeTab === 'dashboard' ? 'text-blue-600 scale-105' : 'text-slate-400 hover:text-slate-600'
+          }`}
+        >
+          <LayoutDashboard size={18} className={activeTab === 'dashboard' ? 'stroke-[2.5]' : 'stroke-[1.8]'} />
+          <span className="text-[9px] font-bold mt-1 tracking-tight select-none">Ringkasan</span>
+          {activeTab === 'dashboard' && (
+            <span className="w-1 h-1 bg-blue-600 rounded-full mt-0.5 animate-pulse" />
+          )}
+        </button>
+
+        <button
+          onClick={() => { setActiveTab('academics'); setOpenAssignmentModalOnLoad(false); }}
+          className={`flex flex-col items-center justify-center flex-1 py-1 transition-all duration-200 focus:outline-none cursor-pointer ${
+            activeTab === 'academics' ? 'text-blue-600 scale-105' : 'text-slate-400 hover:text-slate-600'
+          }`}
+        >
+          <BookOpen size={18} className={activeTab === 'academics' ? 'stroke-[2.5]' : 'stroke-[1.8]'} />
+          <span className="text-[9px] font-bold mt-1 tracking-tight select-none">Kelas & Agenda</span>
+          {activeTab === 'academics' && (
+            <span className="w-1 h-1 bg-blue-600 rounded-full mt-0.5 animate-pulse" />
+          )}
+        </button>
+
+        <button
+          onClick={() => setActiveTab('gpa')}
+          className={`flex flex-col items-center justify-center flex-1 py-1 transition-all duration-200 focus:outline-none cursor-pointer ${
+            activeTab === 'gpa' ? 'text-blue-600 scale-105' : 'text-slate-400 hover:text-slate-600'
+          }`}
+        >
+          <Calculator size={18} className={activeTab === 'gpa' ? 'stroke-[2.5]' : 'stroke-[1.8]'} />
+          <span className="text-[9px] font-bold mt-1 tracking-tight select-none">Kalkulator IPK</span>
+          {activeTab === 'gpa' && (
+            <span className="w-1 h-1 bg-blue-600 rounded-full mt-0.5 animate-pulse" />
+          )}
+        </button>
+
+        <button
+          onClick={() => { setActiveTab('finance'); setOpenTransactionModalOnLoad(false); }}
+          className={`flex flex-col items-center justify-center flex-1 py-1 transition-all duration-200 focus:outline-none cursor-pointer ${
+            activeTab === 'finance' ? 'text-blue-600 scale-105' : 'text-slate-400 hover:text-slate-600'
+          }`}
+        >
+          <Wallet size={18} className={activeTab === 'finance' ? 'stroke-[2.5]' : 'stroke-[1.8]'} />
+          <span className="text-[9px] font-bold mt-1 tracking-tight select-none">Keuangan Kos</span>
+          {activeTab === 'finance' && (
+            <span className="w-1 h-1 bg-blue-600 rounded-full mt-0.5 animate-pulse" />
+          )}
+        </button>
+
+        <button
+          onClick={() => setActiveTab('settings')}
+          className={`flex flex-col items-center justify-center flex-1 py-1 transition-all duration-200 focus:outline-none cursor-pointer ${
+            activeTab === 'settings' ? 'text-blue-600 scale-105' : 'text-slate-400 hover:text-slate-600'
+          }`}
+        >
+          <SettingsIcon size={18} className={activeTab === 'settings' ? 'stroke-[2.5]' : 'stroke-[1.8]'} />
+          <span className="text-[9px] font-bold mt-1 tracking-tight select-none">Pengaturan</span>
+          {activeTab === 'settings' && (
+            <span className="w-1 h-1 bg-blue-600 rounded-full mt-0.5 animate-pulse" />
+          )}
+        </button>
+      </div>
     </div>
   );
 }
