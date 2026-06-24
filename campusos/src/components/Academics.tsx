@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Course, Assignment, Priority, AssignmentStatus } from '../types';
-import { BookOpen, Calendar, AlertCircle, Plus, Search, Trash2, CheckSquare, Square, Tag, Eye, ChevronDown } from 'lucide-react';
+import { BookOpen, Calendar, AlertCircle, Plus, Search, Trash2, CheckSquare, Square, Tag, Eye, ChevronDown, ClipboardList } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface AcademicsProps {
@@ -125,19 +125,19 @@ export default function Academics({
         <div className="flex bg-slate-50 p-1 rounded-lg w-fit self-start border border-slate-200/40">
           <button
             onClick={() => { setSubTab('assignments'); setSearchQuery(''); }}
-            className={`px-4 py-1.5 text-xs font-semibold rounded-md transition cursor-pointer ${
+            className={`px-4 py-1.5 text-xs font-semibold rounded-md transition cursor-pointer flex items-center gap-1.5 ${
               subTab === 'assignments' ? 'bg-white text-blue-600 shadow-xs border border-slate-200/20' : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            📋 Agenda Tugas ({assignments.filter((a) => a.status === 'Pending').length})
+            <ClipboardList size={14} /> Agenda Tugas ({assignments.filter((a) => a.status === 'Pending').length})
           </button>
           <button
             onClick={() => { setSubTab('courses'); setSearchQuery(''); }}
-            className={`px-4 py-1.5 text-xs font-semibold rounded-md transition cursor-pointer ${
+            className={`px-4 py-1.5 text-xs font-semibold rounded-md transition cursor-pointer flex items-center gap-1.5 ${
               subTab === 'courses' ? 'bg-white text-blue-600 shadow-xs border border-slate-200/20' : 'text-slate-500 hover:text-slate-800'
             }`}
           >
-            📚 Daftar Kuliah ({courses.length})
+            <BookOpen size={14} /> Daftar Kuliah ({courses.length})
           </button>
         </div>
 
@@ -163,8 +163,11 @@ export default function Academics({
       </div>
 
       {courses.length === 0 && subTab === 'assignments' && (
-        <div className="bg-amber-50 border border-amber-100 text-amber-800 p-4 rounded-2xl text-xs font-medium">
-          ⚠️ <span className="font-bold">Pemberitahuan:</span> Anda belum menambahkan kelas/mata kuliah. Daftarkan kelas Anda terlebih dulu sebelum mencatat tugas kuliah.
+        <div className="bg-amber-50 border border-amber-100 text-amber-800 p-4 rounded-xl text-xs font-medium flex items-start gap-2">
+          <AlertCircle size={15} className="text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <span className="font-bold">Pemberitahuan:</span> Anda belum menambahkan kelas/mata kuliah. Daftarkan kelas Anda terlebih dulu sebelum mencatat tugas kuliah.
+          </div>
         </div>
       )}
 
@@ -258,8 +261,9 @@ export default function Academics({
                           }`}>
                             {assignment.title}
                           </h4>
-                          <span className="block text-[11px] font-bold text-slate-500 mt-1">
-                            📚 {assignedCourse ? `${assignedCourse.code} - ${assignedCourse.name}` : 'Mata Kuliah Tidak Diketahui'}
+                          <span className="flex items-center gap-1 text-[11px] font-bold text-slate-500 mt-1">
+                            <BookOpen size={12} className="text-slate-400" />
+                            {assignedCourse ? `${assignedCourse.code} - ${assignedCourse.name}` : 'Mata Kuliah Tidak Diketahui'}
                           </span>
                         </div>
                         <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0 select-none ${
