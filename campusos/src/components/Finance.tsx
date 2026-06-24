@@ -152,10 +152,6 @@ export default function Finance({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {/* Total balance wallet */}
         <div className="bg-slate-900 text-white p-6 rounded-xl border border-slate-950/20 shadow-md flex flex-col justify-between relative overflow-hidden">
-          <div className="absolute right-0 bottom-0 opacity-[0.04] p-6 select-none translate-x-4 translate-y-4">
-            <Wallet size={120} />
-          </div>
-
           <div className="space-y-1 relative z-10">
             <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">SALDO DOMPET AKAD</span>
             <h2 className="text-2xl font-semibold tracking-tight truncate font-sans">
@@ -165,9 +161,9 @@ export default function Finance({
 
           <button
             onClick={handleOpenAddTx}
-            className="mt-6 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 focus:outline-none relative z-10 cursor-pointer shadow-none"
+            className="mt-6 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition text-center focus:outline-none relative z-10 cursor-pointer shadow-none"
           >
-            <Plus size={14} /> Catat Transaksi Baru
+            Catat Transaksi Baru
           </button>
         </div>
 
@@ -175,9 +171,6 @@ export default function Finance({
         <div className="bg-white p-6 rounded-xl border border-slate-200/60 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">TOTAL INFLOW (Pemasukan)</span>
-            <div className="p-1.5 bg-emerald-50 text-emerald-600 border border-emerald-100/30 rounded-lg">
-              <ArrowDownRight size={16} />
-            </div>
           </div>
           <div className="mt-4">
             <h3 className="text-xl font-semibold text-emerald-600 truncate font-sans">
@@ -191,9 +184,6 @@ export default function Finance({
         <div className="bg-white p-6 rounded-xl border border-slate-200/60 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">TOTAL OUTFLOW (Pengeluaran)</span>
-            <div className="p-1.5 bg-rose-50 text-rose-600 border border-rose-100/30 rounded-lg">
-              <ArrowUpRight size={16} />
-            </div>
           </div>
           <div className="mt-4">
             <h3 className="text-xl font-semibold text-slate-800 truncate font-sans">
@@ -211,7 +201,6 @@ export default function Finance({
           <h3 className="font-semibold text-slate-900 text-sm tracking-tight">Distribusi Pengeluaran Kampus</h3>
           {expenseCategoryStats.length === 0 ? (
             <div className="text-center py-10 border border-dashed border-slate-200/60 rounded-lg">
-              <BarChart3 size={28} className="mx-auto text-slate-300 mb-2" />
               <p className="text-xs text-slate-400 font-semibold">Belum ada rincian pengeluaran kuliah dicatat.</p>
             </div>
           ) : (
@@ -268,22 +257,18 @@ export default function Finance({
           </div>
 
           <div className="relative">
-            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-              <Search size={14} />
-            </span>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cari transaksi..."
-              className="w-full pl-9 pr-3 py-1.5 bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 text-xs font-semibold placeholder-slate-450"
+              className="w-full px-3.5 py-1.5 bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 text-xs font-semibold placeholder-slate-450"
             />
           </div>
 
           <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
             {filteredTransactions.length === 0 ? (
               <div className="text-center py-12 border border-dashed border-slate-200/60 rounded-lg">
-                <FileText className="mx-auto text-slate-300 mb-2" size={32} />
                 <p className="text-xs text-slate-400 font-semibold">Tidak ada transaksi yang cocok</p>
               </div>
             ) : (
@@ -293,10 +278,12 @@ export default function Finance({
                   className="p-3 bg-slate-50/40 hover:bg-slate-100/60 border border-slate-100/60 rounded-lg flex items-center justify-between gap-3 transition"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className={`p-1.5 rounded-lg text-white shrink-0 mt-0.5 ${
-                      t.type === 'Income' ? 'bg-emerald-500' : 'bg-slate-700'
-                    }`}>
-                      {t.type === 'Income' ? <ArrowDownRight size={13} /> : <ArrowUpRight size={13} />}
+                    <div className="shrink-0 mt-0.5">
+                      {t.type === 'Income' ? (
+                        <span className="text-[9px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Masuk</span>
+                      ) : (
+                        <span className="text-[9px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Keluar</span>
+                      )}
                     </div>
                     <div className="min-w-0">
                       <span className="block font-semibold text-xs text-slate-800 truncate leading-snug">{t.description}</span>
@@ -308,7 +295,7 @@ export default function Finance({
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
+                  <div className="flex items-center gap-3 shrink-0">
                     <span className={`font-mono text-xs font-semibold ${
                       t.type === 'Income' ? 'text-emerald-600' : 'text-slate-800'
                     }`}>
@@ -316,10 +303,10 @@ export default function Finance({
                     </span>
                     <button
                       onClick={() => onDeleteTransaction(t.id)}
-                      className="text-slate-300 hover:text-rose-600 p-1.5 rounded-lg transition hover:bg-rose-50 cursor-pointer"
+                      className="text-slate-400 hover:text-rose-600 text-[10px] font-bold uppercase tracking-wider transition cursor-pointer"
                       title="Hapus Transaksi"
                     >
-                      <Trash2 size={13} />
+                      Hapus
                     </button>
                   </div>
                 </div>
