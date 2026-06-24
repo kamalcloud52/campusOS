@@ -115,10 +115,7 @@ export default function Dashboard({
           className="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-4">
-            <span className="text-slate-400 text-xs font-bold uppercase tracking-wider">Indeks Prestasi Kumulatif</span>
-            <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
-              <Award size={18} />
-            </div>
+            <span className="text-slate-450 text-xs font-bold uppercase tracking-wider">Indeks Prestasi Kumulatif</span>
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
@@ -140,9 +137,9 @@ export default function Dashboard({
           </div>
           <button
             onClick={() => setActiveTab('gpa')}
-            className="mt-5 w-full py-2 bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-800 border border-slate-200/60 rounded-xl text-xs font-semibold tracking-tight transition flex items-center justify-center gap-1 cursor-pointer"
+            className="mt-5 w-full py-2 bg-slate-50 hover:bg-slate-100 text-slate-650 hover:text-slate-800 border border-slate-200/60 rounded-xl text-xs font-semibold tracking-tight transition text-center cursor-pointer"
           >
-            <Plus size={14} /> Play Target IPK
+            Play Target IPK
           </button>
         </motion.div>
 
@@ -153,25 +150,22 @@ export default function Dashboard({
           className="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-4">
-            <span className="text-slate-400 text-xs font-bold uppercase tracking-wider">Tugas & Agenda Aktif</span>
-            <div className="p-2 bg-amber-50 text-amber-600 rounded-lg">
-              <ClipboardList size={18} />
-            </div>
+            <span className="text-slate-450 text-xs font-bold uppercase tracking-wider">Tugas & Agenda Aktif</span>
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
               <span className="text-4xl font-light text-slate-900">{pendingAssignments.length}</span>
               <span className="text-xs text-slate-400 font-semibold">tugas tertunda</span>
             </div>
-            <div className="mt-3 flex items-center gap-1 text-[11px] text-slate-400 font-semibold">
-              <Clock size={12} className="text-amber-500" /> Standard Kelulusan Tepat Waktu
+            <div className="mt-3 text-[11px] text-slate-405 font-semibold">
+              Standard Kelulusan Tepat Waktu
             </div>
           </div>
           <button
             onClick={onQuickAddAssignment}
-            className="mt-5 w-full py-2 bg-slate-50 hover:bg-slate-100 text-amber-800 hover:text-amber-900 border border-slate-200/60 rounded-xl text-xs font-semibold tracking-tight transition flex items-center justify-center gap-1 cursor-pointer"
+            className="mt-5 w-full py-2 bg-slate-50 hover:bg-slate-100 text-amber-800 hover:text-amber-900 border border-slate-200/60 rounded-xl text-xs font-semibold tracking-tight transition text-center cursor-pointer"
           >
-            <Plus size={14} /> Tambah Agenda
+            Tambah Agenda
           </button>
         </motion.div>
 
@@ -182,10 +176,7 @@ export default function Dashboard({
           className="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-4">
-            <span className="text-slate-400 text-xs font-bold uppercase tracking-wider">Survival Wallet</span>
-            <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
-              <Wallet size={18} />
-            </div>
+            <span className="text-slate-455 text-xs font-bold uppercase tracking-wider">Survival Wallet</span>
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
@@ -196,7 +187,7 @@ export default function Dashboard({
             <div className="mt-3">
               {balance < 50000 ? (
                 <span className="text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full text-[10px] font-bold inline-flex items-center gap-1 animate-pulse">
-                  <AlertCircle size={10} /> Mode Hemat Ekstrem
+                  Mode Hemat Ekstrem
                 </span>
               ) : (
                 <span className="text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full text-[10px] font-bold">✓ Anggaran Stabil</span>
@@ -205,9 +196,9 @@ export default function Dashboard({
           </div>
           <button
             onClick={onQuickAddTransaction}
-            className="mt-5 w-full py-2 bg-slate-50 hover:bg-slate-100 text-emerald-800 hover:text-emerald-900 border border-slate-200/60 rounded-xl text-xs font-semibold tracking-tight transition flex items-center justify-center gap-1 cursor-pointer"
+            className="mt-5 w-full py-2 bg-slate-50 hover:bg-slate-100 text-emerald-800 hover:text-emerald-900 border border-slate-200/60 rounded-xl text-xs font-semibold tracking-tight transition text-center cursor-pointer"
           >
-            <Plus size={14} /> Catat Pengeluaran
+            Catat Pengeluaran
           </button>
         </motion.div>
       </div>
@@ -220,16 +211,15 @@ export default function Dashboard({
             <h3 className="font-semibold text-base text-slate-800 tracking-tight">Timeline & Agenda Terdekat</h3>
             <button
               onClick={() => setActiveTab('academics')}
-              className="text-blue-600 hover:text-blue-700 text-xs font-semibold flex items-center gap-0.5 focus:outline-none cursor-pointer"
+              className="text-blue-600 hover:text-blue-700 text-xs font-semibold flex items-center gap-1 focus:outline-none cursor-pointer animate-none"
             >
-              Lihat Agenda ({assignments.length}) <ArrowUpRight size={14} />
+              Lihat Agenda ({assignments.length}) →
             </button>
           </div>
 
           <div className="space-y-3">
             {urgentAssignments.length === 0 ? (
               <div className="text-center py-10 border border-dashed border-slate-200 rounded-xl">
-                <ClipboardList className="mx-auto text-slate-300 mb-2" size={32} />
                 <p className="text-sm font-semibold text-slate-500">Semua tugasmu sudah tuntas!</p>
                 <p className="text-xs text-slate-400 mt-1">Kerja bagus, pertahankan performamu.</p>
               </div>
@@ -243,12 +233,10 @@ export default function Dashboard({
                     key={assignment.id}
                     className="p-3.5 bg-slate-50/60 border border-slate-100/80 rounded-xl flex items-start gap-3 hover:bg-slate-50/90 transition"
                   >
-                    <div className={`p-1.5 rounded-lg text-white mt-0.5 shrink-0 ${
+                    <div className={`w-2.5 h-2.5 rounded-full mt-1.5 shrink-0 ${
                       assignment.priority === 'High' ? 'bg-rose-500' :
                       assignment.priority === 'Medium' ? 'bg-amber-500' : 'bg-emerald-500'
-                    }`}>
-                      <AlertCircle size={14} />
-                    </div>
+                    }`} />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-baseline justify-between gap-2">
                         <span className="font-semibold text-sm text-slate-800 block truncate">{assignment.title}</span>
@@ -260,13 +248,11 @@ export default function Dashboard({
                         </span>
                       </div>
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-[11px] text-slate-500 font-medium">
-                        <span className="flex items-center gap-1 text-slate-700">
-                          <BookOpen size={12} className="text-slate-400" />
+                        <span className="text-slate-700">
                           {assignedCourse ? assignedCourse.name : 'Unknown Course'}
                         </span>
                         <span className="text-slate-300">•</span>
-                        <span className={`flex items-center gap-1 ${isOverdue ? 'text-rose-600 font-semibold' : 'text-slate-400'}`}>
-                          <Calendar size={12} className={isOverdue ? 'text-rose-500' : 'text-slate-400'} />
+                        <span className={isOverdue ? 'text-rose-600 font-bold' : 'text-slate-400'}>
                           {isOverdue ? 'Terlewat: ' : 'Tenggat: '} {assignment.dueDate}
                         </span>
                       </div>
@@ -284,16 +270,15 @@ export default function Dashboard({
             <h3 className="font-semibold text-base text-slate-800 tracking-tight">Catat Aktivitas Finansial</h3>
             <button
               onClick={() => setActiveTab('finance')}
-              className="text-blue-600 hover:text-blue-700 text-xs font-semibold flex items-center gap-0.5 focus:outline-none cursor-pointer"
+              className="text-blue-600 hover:text-blue-700 text-xs font-semibold flex items-center gap-1 focus:outline-none cursor-pointer"
             >
-              Buku Kas Kos <ArrowUpRight size={14} />
+              Buku Kas Kos →
             </button>
           </div>
 
           <div className="space-y-3">
             {transactions.length === 0 ? (
               <div className="text-center py-10 border border-dashed border-slate-200 rounded-xl">
-                <Wallet className="mx-auto text-slate-300 mb-2" size={32} />
                 <p className="text-sm font-semibold text-slate-500">Belum ada transaksi</p>
                 <p className="text-xs text-slate-400 mt-1">Tekan "Catat Pengeluaran" untuk memulainya.</p>
               </div>
@@ -304,10 +289,12 @@ export default function Dashboard({
                   className="p-3 bg-slate-50/40 hover:bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between gap-3 transition font-medium"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className={`p-2 rounded-lg shrink-0 ${
-                      t.type === 'Income' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'
-                    }`}>
-                      {t.type === 'Income' ? <ArrowDownRight size={15} /> : <ArrowUpRight size={15} />}
+                    <div className="shrink-0">
+                      {t.type === 'Income' ? (
+                        <span className="text-[9px] bg-emerald-50 text-emerald-700 px-2 py-1 rounded font-bold uppercase tracking-wider">Masuk</span>
+                      ) : (
+                        <span className="text-[9px] bg-slate-100 text-slate-600 px-2 py-1 rounded font-bold uppercase tracking-wider">Keluar</span>
+                      )}
                     </div>
                     <div className="min-w-0">
                       <span className="block font-semibold text-sm text-slate-800 truncate">{t.description}</span>
@@ -329,10 +316,10 @@ export default function Dashboard({
       </div>
 
       {/* Tip of the day on campus survival */}
-      <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl flex items-start gap-3">
-        <Lightbulb size={18} className="text-amber-500 shrink-0 mt-0.5" />
+      <div className="bg-slate-50 border border-slate-200 p-5 rounded-xl">
+        <span className="text-blue-650 font-bold text-[10px] tracking-wider uppercase block mb-1">Tips Hari Ini</span>
         <div className="text-xs text-slate-600 leading-relaxed font-sans font-semibold">
-          <span className="text-slate-800 font-bold">Tips Kampus Hari Ini:</span> SKS target nilai minimal "B" menjaga IPK Anda tetap di atas 3.00, yang merupakan standar umum untuk beasiswa dan mendaftar lowongan kerja setelah lulus. Selalu sisihkan minimum 10% kiriman bulanan untuk kas darurat!
+          <span className="text-slate-800 font-bold">Tips Kampus:</span> SKS target nilai minimal "B" menjaga IPK Anda tetap di atas 3.00, yang merupakan standar umum untuk beasiswa dan mendaftar lowongan kerja setelah lulus. Selalu sisihkan minimum 10% kiriman bulanan untuk kas darurat!
         </div>
       </div>
     </div>
