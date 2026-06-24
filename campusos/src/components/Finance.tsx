@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Transaction, TransactionType } from '../types';
-import { Wallet, ArrowUpRight, ArrowDownRight, Search, Plus, Trash2, Calendar, FileText, Tag } from 'lucide-react';
+import { Wallet, ArrowUpRight, ArrowDownRight, Search, Plus, Trash2, Calendar, FileText, Tag, BarChart3 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface FinanceProps {
@@ -211,7 +211,7 @@ export default function Finance({
           <h3 className="font-semibold text-slate-900 text-sm tracking-tight">Distribusi Pengeluaran Kampus</h3>
           {expenseCategoryStats.length === 0 ? (
             <div className="text-center py-10 border border-dashed border-slate-200/60 rounded-lg">
-              <span className="block text-lg mb-1 select-none">📊</span>
+              <BarChart3 size={28} className="mx-auto text-slate-300 mb-2" />
               <p className="text-xs text-slate-400 font-semibold">Belum ada rincian pengeluaran kuliah dicatat.</p>
             </div>
           ) : (
